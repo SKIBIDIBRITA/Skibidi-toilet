@@ -64,6 +64,8 @@
         #profile-section {
             display: none;
             padding: 20px;
+            flex-grow: 1; /* Allow the profile section to grow */
+            overflow-y: auto; /* Enable scrolling if content overflows */
             transition: all 0.3s ease;
         }
 
@@ -216,16 +218,51 @@
         }
 
         .credits {
-            margin-top: auto; /* Push credits to the bottom */
             text-align: center;
             padding: 10px;
             background-color: #fff;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        @media (max-width: 600px) {
+        /* Responsive font sizes */
+        @media (min-width: 768px) {
+            body {
+                font-size: 1.2em; /* Increase base font size for larger screens */
+            }
+
+            .profile-box span {
+                font-size: 1.5em; /* Increase font size for profile details */
+            }
+
             .edit-button {
-                width: 100%;
+                font-size: 1.2em; /* Larger edit button font size */
+            }
+
+            .change-picture-button {
+                font-size: 1.2em; /* Larger change picture button font size */
+            }
+
+            .friendship-rate label {
+                font-size: 1.2em; /* Larger label font size */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                font-size: 1.4em; /* Further increase for larger screens */
+            }
+
+            .profile-box span {
+                font-size: 1.7em; /* Even larger font size for profile details */
+            }
+
+            .edit-button,
+            .change-picture-button {
+                font-size: 1.3em; /* Adjust button sizes for larger screens */
+            }
+
+            .friendship-rate label {
+                font-size: 1.3em; /* Larger label for friendship rate */
             }
         }
     </style>
@@ -274,14 +311,14 @@
     <div id="overlay"></div>
     <div id="editPopup">
         <label for="editName">Name:</label>
-        <input type="text" id="editName" value="No Name">
-        
+        <input type="text" id="editName" placeholder="Enter your name">
+
         <label for="editBirthday">Birthday:</label>
-        <input type="date" id="editBirthday" value="">
-        
+        <input type="date" id="editBirthday">
+
         <label for="editInfo">Info:</label>
         <input type="text" id="editInfo" value="No Info">
-        
+
         <button onclick="saveChanges()">Save</button>
         <button onclick="closeEditPopup()">Cancel</button>
     </div>
@@ -291,8 +328,7 @@
     </div>
 
     <script>
-        // Load saved data from localStorage
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('profileName')) {
                 document.getElementById('profileName').textContent = localStorage.getItem('profileName');
             }
@@ -306,13 +342,8 @@
 
         function toggleMenu() {
             var menu = document.getElementById('menu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-                menu.style.opacity = '1';
-            }
-            menu.style.transition = 'opacity 0.3s';
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            menu.style.opacity = '1';
         }
 
         function goHome() {
@@ -323,7 +354,6 @@
         function showProfile() {
             document.getElementById('profile-section').style.display = 'block'; // Show profile section
             document.getElementById('menu').style.display = 'none'; // Close the menu
-            document.getElementById('profile-section').style.opacity = '1'; // Ensure the section is visible
         }
 
         function openEditPopup() {
